@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Online Customer Service{% endblock %}
+{% block menu %}
+<div data-role="navbar">
+<ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li><a href="login" class="ui-btn-active">Login</a></li>
+</ul>
+</div>
+{% endblock %}
+{% block content %}
+<div data-role="navbar">
+    <span style="color: red;">
+        {{ error }}
+        {% for error in form.username.errors %}
+        {{ error }}<br>
+        {% endfor %}
+        {% for error in form.password.errors %}
+        {{ error }}<br>
+        {% endfor %}
+    </span>
+<table>
+    <tr>
+        <td width="5%"></td>
+        <td width="90%">
+            <form action="dologin" method="POST">
+                {{ form.csrf_token }}
+                {{ form.username.label }}  {{ form.username(size=10) }}
+                {{ form.password.label }}  {{ form.password(size=10) }}
+                {{ form.submit }}
+            </form>
+        </td>
+        <td width="5%"></td>
+    </tr>
+</table>
+</div>
+{% endblock %}

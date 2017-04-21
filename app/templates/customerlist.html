@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Customer List{% endblock %}
+
+{% block content %}
+<table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke">
+    <thead>
+        <tr>
+            <th></th>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Upload Image</th>
+            <th>Personality Anlyztics</th>
+        </tr>
+    </thead>
+    {% for customer in customerList %}
+        <tr>
+            <td></td>
+            <td>{{ customer['customer_id'] }}</td>
+            <td>{{ customer['customer_info']['name'] }}</td>
+            <td><a href="uploadimg?customer_id={{ customer['customer_id'] }}">Upload Image</a></td>
+            <td><a href="#">Personality Anlyztics</a></td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

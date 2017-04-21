@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Online Customer Service{% endblock %}
+{% block menu %}
+
+{% endblock %}
+{% block content %}
+<div data-role="navbar">
+    <span style="color: red;">
+        {{ error }}
+        {% for error in form.photo.errors %}
+        {{ error }}<br>
+        {% endfor %}
+
+    </span>
+<table>
+    <tr>
+        <td width="5%"></td>
+        <td width="90%">
+            <form action="douploadimg" method="POST" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+                {{ form.photo }}
+                {{ form.submit }}
+            </form>
+        </td>
+        <td width="5%"></td>
+    </tr>
+</table>
+</div>
+{% endblock %}

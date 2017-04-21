@@ -1,0 +1,5 @@
+LOGIN001 = 'Username and password is worry!'
+LOGIN002 = 'Please input the username!'
+LOGIN003 = 'Please input the password!'
+UPLOAD001 = 'There is no file selected!'
+UPLOAD002 = 'Only allow jpg, jpeg and png file!'
