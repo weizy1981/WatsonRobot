@@ -145,8 +145,9 @@ class WatsonDocumentConversion:
                                                          password=self.password,
                                                          version=self.version)
 
-    def doDocumentConversion(self, fileName, media_type=None):
-        config = {'conversion_target': DocumentConversionV1.ANSWER_UNITS}
+    def doDocumentConversion(self, fileName, config=None, media_type=None):
+        if None == config :
+            config = {'conversion_target': DocumentConversionV1.ANSWER_UNITS}
 
         with open(fileName, 'r') as document:
             response = self.documentConversation.convert_document(document=document,

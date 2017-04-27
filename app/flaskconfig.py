@@ -3,4 +3,5 @@ CSRF_ENABLED = True
 SECRET_KEY = 'watson-customer-management'
 UPLOAD_FOLDER = '/Users/wzy/Documents/PycharmProjects/WatsonRobot/app/static/resource'
 MAX_CONTENT_LENGTH = 4 * 1024 * 1024  # 4MB
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'csv', 'png', 'jpg', 'jpeg', 'gif'])
+#ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'csv', 'png', 'jpg', 'jpeg', 'gif'])
+WTASON_ROBOT_VISUAL_COLLECTION = 'WTASON_ROBOT_VISUAL'

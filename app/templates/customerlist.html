@@ -2,12 +2,11 @@
 {% block title %}Customer List{% endblock %}
 
 {% block content %}
-<table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke">
+<table>
     <thead>
         <tr>
             <th></th>
             <th>No.</th>
-            <th>Name</th>
             <th>Upload Image</th>
             <th>Personality Anlyztics</th>
         </tr>
@@ -15,10 +14,9 @@
     {% for customer in customerList %}
         <tr>
             <td></td>
-            <td>{{ customer['customer_id'] }}</td>
-            <td>{{ customer['customer_info']['name'] }}</td>
-            <td><a href="uploadimg?customer_id={{ customer['customer_id'] }}">Upload Image</a></td>
-            <td><a href="#">Personality Anlyztics</a></td>
+            <td><a href="showcustomerinfo?customer_id={{ customer['customer_id'] }}">{{ customer['customer_id'] }}</a></td>
+            <td><a href="uploadimg?customer_id={{ customer['customer_id'] }}">Upload</a></td>
+            <td><a href="#">Anlyztics</a></td>
         </tr>
     {% endfor %}
 </table>

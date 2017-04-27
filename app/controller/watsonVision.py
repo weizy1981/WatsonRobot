@@ -33,10 +33,20 @@ class WatsonVisaulRecognition:
     # metadata ：dict对象，描述照片的信息metadata = {'name' : 'Name', 'age' : '25', 'cellphone' : 'cellno'}
     def addImageToCollection(self, collectionName, image, metadata=None):
         collectionId = self.__getCollectionId(collectionName=collectionName)
-        with open(image, 'rb') as image_file:
-            response = self.visaulRecognition.add_image(collection_id=collectionId, image_file=image_file,
+        if isinstance(image, str) :
+            with open(image, 'rb') as image_file:
+                response = self.visaulRecognition.add_image(collection_id=collectionId, image_file=image_file,
+                                                            metadata=metadata)
+                return response
+        else :
+            response = self.visaulRecognition.add_image(collection_id=collectionId, image_file=image,
                                                         metadata=metadata)
             return response
+
+    def deleteImageFromCollection(self, collectionName, image_id):
+        collectionId = self.__getCollectionId(collectionName=collectionName)
+        self.visaulRecognition.delete_image(collection_id=collectionId, image_id=image_id)
+
 
     # 从自己的collection找到相似的照片返回照片的信息
     def getSimilar(self, collectionName, image):
@@ -54,6 +64,9 @@ class WatsonVisaulRecognition:
                 collectionId = collection['collection_id']
                 break
         return collectionId
+
+    def getCollectionId(self, collectionName):
+        return self.__getCollectionId(collectionName=collectionName)
 
     # 人脸识别, 文件不能超过2M
     def detectFace(self, image):

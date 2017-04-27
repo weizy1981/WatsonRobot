@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Add Customer{% endblock %}
+{% block content %}
+    <span style="color: red;">
+        {{ error }}
+        {% for error in form.customer_id.errors %}
+        {{ error }}<br>
+        {% endfor %}
+        {% for error in form.name.errors %}
+        {{ error }}<br>
+        {% endfor %}
+        {% for error in form.age.errors %}
+        {{ error }}<br>
+        {% endfor %}
+        {% for error in form.sex.errors %}
+        {{ error }}<br>
+        {% endfor %}
+
+    </span>
+<table>
+    <tr>
+        <td width="5%"></td>
+        <td width="90%">
+            <form action="{{ form.action }}" method="POST">
+                {{ form.csrf_token }}
+                {{ form.customer_id.label }}  :  {{ form.customer_id }}<br>
+                {{ form.name.label }}  :  {{ form.name }}<br>
+                {{ form.age.label }}  :  {{ form.age }}<br>
+                {{ form.sex.label }}  :  {{ form.sex }}<br>
+                {{ form.submit }}
+            </form>
+        </td>
+        <td width="5%"></td>
+    </tr>
+</table>
+{% endblock %}

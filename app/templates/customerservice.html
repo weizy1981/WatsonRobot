@@ -1,16 +1,26 @@
 {% extends "base.html" %}
 {% block title %}Online Customer Service{% endblock %}
 {% block menu %}
-<div data-role="navbar">
 <ul>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
     <li><a href="login" class="ui-btn-active">Login</a></li>
 </ul>
-</div>
 {% endblock %}
 {% block content %}
-Say Someting
+    <div>
+        {% for conversation in conversationList %}
+            <span style="float: {{ conversation['align'] }}">{{ conversation['text'] }}</span><br>
+        {% endfor %}
+        <br>
+    </div>
+    <div>
+        <br>
+        <form action="doconversation" method="POST">
+            {% for error in form.question.errors %}
+            {{ error }}<br>
+            {% endfor %}
+            {{ form.csrf_token }}
+            {{ form.question.label }}  {{ form.question(size=100) }}
+            {{ form.submit }}
+        </form>
+    </div>
 {% endblock %}

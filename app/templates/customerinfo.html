@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Customer Info{% endblock %}
+{% block content %}
+<h1>Customer Information</h1><br>
+{% for label in customer_info_list %}
+{{ label }}<br>
+{% endfor %}
+{% endblock %}
