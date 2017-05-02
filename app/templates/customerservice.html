@@ -22,5 +22,8 @@
             {{ form.question.label }}  {{ form.question(size=100) }}
             {{ form.submit }}
         </form>
+        {% if audio_file != '' %}
+        <audio name="audio" id="audio" controls autoplay src="{{ audio_file }}">当浏览器不支持audio标签</audio>
+        {% endif %}
     </div>
 {% endblock %}

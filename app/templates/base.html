@@ -15,6 +15,7 @@
         $(function () {
             $("#menu-query").menu();
             $("#menu-add").menu();
+            $("#menu-training").menu();
         });
     </script>
     <style>
@@ -35,7 +36,21 @@
             {% block menu %}
             <ul id="menu-top" class="menu">
                 <li style="width:150px"><ul><li><div><a href="customerlist">Customer List</a></div></li></ul></li>
-                <li style="width:150px"><ul><li><div><a href="gotrainingonlineservice">Training Online Service</a></div></li></ul></li>
+                <li style="width:150px">
+                    <ul id="menu-training">
+                        <li>
+                            <div><a href="#">Training Online Service</a></div>
+                            <ul>
+                                <li>
+                                    <div><a href="uploadquestion">Upload Question</a></div>
+                                </li>
+                                <li>
+                                    <div><a href="uploadanswer">Upload Answer</a></div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
 
                 <li style="width:200px">
                     <ul id="menu-add">

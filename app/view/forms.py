@@ -13,7 +13,8 @@ class FileForm(FlaskForm):
     submit = SubmitField(label='GO')
 
 class QuestionForm(FlaskForm):
-    question = StringField(label='Question', validators=[DataRequired(errormessage.ONLINE_SERVICE001)])
+    question = StringField(label='Question',
+                           validators=[DataRequired(errormessage.ONLINE_SERVICE001)])
     submit = SubmitField(label='GO')
 
 class QuerySNForm(FlaskForm):

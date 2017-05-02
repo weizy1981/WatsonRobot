@@ -7,6 +7,7 @@ from watson_developer_cloud import PersonalityInsightsV3
 from watson_developer_cloud import DocumentConversionV1
 from watson_developer_cloud import RetrieveAndRankV1
 from watson_developer_cloud import ToneAnalyzerV3
+from time import time
 
 
 class WatsonConversation:
@@ -15,7 +16,7 @@ class WatsonConversation:
     # 调用 conversation 的参数
     username = 'ba1fbe43-ba2d-40e6-8e01-f2fe8a2e77c1'
     password = 'RVmKhhzt7oQY'
-    version = '2017-02-03'
+    version = '2017-04-21'
     workspace_id = 'a52b6296-7de3-46c0-8445-f7ab3337678b'
     context = None
 
@@ -23,6 +24,76 @@ class WatsonConversation:
     def __init__(self):
         # print('this is watson conversation start')
         self.conversation = ConversationV1(username=self.username, password=self.password, version=self.version)
+
+    def getWorkspace(self):
+        res = self.conversation.get_workspace(workspace_id=self.workspace_id, export=True)
+        return res
+
+    def getDialogNodes(self):
+        res = self.getWorkspace()
+        return res['dialog_nodes']
+
+    def hasDialogNode(self, dialog_node):
+        result = False
+        for tmpDialogNode in self.getDialogNodes() :
+            if dialog_node['dialog_node'] == tmpDialogNode['dialog_node'] :
+                result = True
+                break;
+        return result
+
+    def getLastDialogNode(self):
+        res = self.getDialogNodes()
+        #print(res)
+        length = len(res)
+        if length == 0 :
+            return None
+        else :
+            return res[length - 1]
+
+    def getLastDialogNodeName(self):
+        try :
+            res = self.getLastDialogNode()
+            return res['dialog_node']
+        except :
+            return None
+
+    def createDailogNode(self, answer, intentName):
+        res = {}
+        res['output'] = {'text': {'values': [answer], 'selection_policy': 'sequential'}}
+        res['dialog_node'] = intentName
+        res['previous_sibling'] = self.getLastDialogNodeName()
+        res['conditions'] = '#' + intentName
+        return res
+
+    def makeDailogNodes(self):
+        dialog_nodes = []
+        tmpList = self.getDialogNodes()
+        for dialog_node in tmpList:
+            dialog_nodes.append(self.makeDialogNode(dialogNode=dialog_node))
+        return dialog_nodes
+
+    def makeDialogNode(self, dialogNode):
+        res = {}
+        res['output'] = dialogNode['output']
+        res['dialog_node'] = dialogNode['dialog_node']
+        res['previous_sibling'] = dialogNode['previous_sibling']
+        res['conditions'] = dialogNode['conditions']
+        return res
+
+
+    def addDailogNode(self, dialog_node = None):
+        dialog_nodes = self.makeDailogNodes()
+        if None != dialog_node :
+            if not self.hasDialogNode(dialog_node=dialog_node) :
+                for dialog_node_tmp in dialog_nodes:
+                    if dialog_node_tmp ['previous_sibling'] == self.getLastDialogNodeName() :
+                        dialog_node_tmp['previous_sibling'] = dialog_node['dialog_node']
+                        break
+                dialog_nodes.append(dialog_node)
+        #print(dialog_nodes)
+        return self.conversation.update_workspace(workspace_id=self.workspace_id, dialog_nodes=dialog_nodes)
+
+
 
     # 对话功能的实现
     def doConversation(self, questionMsg=''):
@@ -36,6 +107,84 @@ class WatsonConversation:
         # 返回这次的回答
         answerMsg = output['text']
         return answerMsg
+
+    def listIntents(self):
+        params = {'version': self.version}
+        params['export'] = None
+        params['page_limit'] = None
+        params['include_count'] = None
+        params['sort'] = None
+        params['cursor'] = None
+        res = self.conversation.request(
+            method='GET',
+            url='/v1/workspaces/{0}/intents'.format(self.workspace_id),
+            params=params,
+            accept_json=True)
+        return res
+        #print(res)
+
+    def __getIntent(self, intentName):
+        res = self.listIntents()
+        intentList = res['intents']
+        value = None
+        for intent in intentList :
+            if intentName == intent['intent']:
+                value = intent
+                break
+        return value
+
+    def addExample(self, intentName, question):
+        intent = self.__getIntent(intentName=intentName)
+
+        if None == intent :
+            self.__create_intent(intent=intentName, description=intentName)
+
+        try :
+            self.__create_example(intentName=intentName, text=question)
+        except Exception as e:
+            print(e)
+
+
+    def __create_intent(self,
+                      intent,
+                      description=None,
+                      examples=None):
+        """
+        Create intent.
+        :param workspace_id: The workspace ID.
+        :param intent: The name of the intent.
+        :param description: The description of the intent.
+        :param examples: An array of user input examples.
+        """
+        params = {'version': self.version}
+        data = {}
+        data['intent'] = intent
+        data['description'] = description
+        data['examples'] = examples
+        return self.conversation.request(
+            method='POST',
+            url='/v1/workspaces/{0}/intents'.format(self.workspace_id),
+            params=params,
+            json=data,
+            accept_json=True)
+
+    def __create_example(self, intentName, text):
+        """
+        Create user input example.
+        :param workspace_id: The workspace ID.
+        :param intentName: The intent name (for example, `pizza_order`).
+        :param text: The text of a user input example.
+        """
+        params = {'version': self.version}
+        data = {}
+        data['text'] = text
+        return self.conversation.request(
+            method='POST',
+            url='/v1/workspaces/{0}/intents/{1}/examples'.format(
+                self.workspace_id, intentName),
+            params=params,
+            json=data,
+            accept_json=True)
 
 
 class WatsonLanguageClassifier:
