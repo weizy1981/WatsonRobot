@@ -29,6 +29,7 @@ class AdminUserModel:
 
 '''adminUser = AdminUserModel()
 user = {'username':'ISSC1228', 'password':'zaq12wsx'}
+adminUser.insert(adminuser=user)
 
 users = adminUser.find(username='ISSC1228')
 print(users)'''
