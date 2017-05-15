@@ -17,7 +17,7 @@ class WatsonText2Speech():
     def text2speech(self, fileName='', message=''):
         if fileName == '':
             fileName = '/Users/wzy/Documents/workspace/FirstFlask/tmp/output.wav'
-            #print('File is deleted!')
+        #print(fileName)
 
         if message == '':
             message = 'Hello world!'

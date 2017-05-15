@@ -98,8 +98,7 @@ class WatsonConversation:
     # 对话功能的实现
     def doConversation(self, questionMsg=''):
         # 调用conversation的message得到输入的反馈结果
-        response = self.conversation.message(workspace_id=self.workspace_id, message_input={
-            'text': questionMsg}, context=self.context)
+        response = self.conversation.message(workspace_id=self.workspace_id, message_input={'text': questionMsg}, context=self.context)
         # 返回的结果
         output = response['output']
         # 保存对话的context，为下次调用维持在同一个Dialog中

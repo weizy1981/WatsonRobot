@@ -1,0 +1,16 @@
+cd /Users/wzy/Documents/PycharmProjects/WatsonRobot
+
+
+bluemix api https://api.ng.bluemix.net
+
+
+bluemix login -u weizy@cn.ibm.com -o weizy@cn.ibm.com -s dev
+
+
+bluemix app push wzycustomer
+
+
+bluemix cf logs wzycustomer --recent
+
+
+bluemix cf ssh wzycustomer

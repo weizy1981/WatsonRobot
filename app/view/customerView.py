@@ -19,7 +19,6 @@ from app.controller.watsonSpeech import WatsonText2Speech
 from app import conversation
 from app.controller.customer import getCustomerInfo
 
-
 @application.route('/')
 def index():
     try:
@@ -95,7 +94,8 @@ def dologin():
         adminuser = admin.find(username=username)
 
         if None != adminuser and password == adminuser['password']:
-            return redirect('/customerlist')
+            #return redirect('/customerlist')
+            return customerList()
         else:
             return render_template('login.html', form=form, error=errormessage.LOGIN001)
     else:

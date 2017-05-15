@@ -1,0 +1,5 @@
+pymongo
+watson-developer-cloud
+flask
+Flask-WTF
+flask-uploads
